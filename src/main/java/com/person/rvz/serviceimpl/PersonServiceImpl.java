@@ -16,6 +16,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person createPerson(Person person) {
+    person.setPersonid(personRepository.findMaxPersonId() + 1);
         return personRepository.save(person);
     }
 
