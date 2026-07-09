@@ -13,6 +13,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.NoSuchElementException;
+import java.util.UUID;
+
 @Service
 public class PersonServiceImpl implements PersonService {
 
@@ -45,5 +48,13 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Page<Person> getAllPersons(Pageable pageable) {
         return personRepository.findAll(pageable);
+    }
+
+    @Override
+    public void deletePerson(UUID id) {
+        if (!personRepository.existsById(id)) {
+            throw new NoSuchElementException("Person not found: " + id);
+        }
+        personRepository.deleteById(id);
     }
 }
