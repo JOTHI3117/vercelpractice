@@ -24,6 +24,11 @@ public class GlobalExceptionHandler {
         return buildResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalState(IllegalStateException ex, HttpServletRequest request) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage(), request);
+    }
+
     @ExceptionHandler(SecurityException.class)
     public ResponseEntity<ErrorResponse> handleSecurity(SecurityException ex, HttpServletRequest request) {
         return buildResponse(HttpStatus.FORBIDDEN, ex.getMessage(), request);

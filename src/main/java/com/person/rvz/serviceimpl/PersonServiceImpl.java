@@ -1,9 +1,11 @@
 package com.person.rvz.serviceimpl;
 
 import com.person.rvz.entity.Login;
+import com.person.rvz.entity.Mentor;
 import com.person.rvz.entity.Person;
 import com.person.rvz.entity.Role;
 import com.person.rvz.repository.LoginRepository;
+import com.person.rvz.repository.MentorRepository;
 import com.person.rvz.repository.PersonRepository;
 import com.person.rvz.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +28,20 @@ public class PersonServiceImpl implements PersonService {
     LoginRepository loginRepository;
 
     @Autowired
+    MentorRepository mentorRepository;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional
     public Person createPerson(Person person) {
+        if (person.getMentor() == null || person.getMentor().getId() == null) {
+            throw new IllegalArgumentException("A mentor must be selected for this person");
+        }
+        Mentor mentor = mentorRepository.findById(person.getMentor().getId())
+                .orElseThrow(() -> new NoSuchElementException("Mentor not found: " + person.getMentor().getId()));
+        person.setMentor(mentor);
         person.setPersonid(personRepository.findMaxPersonId() + 1);
         Person saved = personRepository.save(person);
 

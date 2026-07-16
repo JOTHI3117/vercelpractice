@@ -6,26 +6,20 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import lombok.Data;
 
 @Data
 @Entity
-public class Person {
+public class Mentor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Integer personid;
-
     private String name;
 
-    private String qualification;
+    private Integer age;
 
-    @ManyToOne
-    @JoinColumn(name = "mentor_id", nullable = false)
-    private Mentor mentor;
+    private String userName;
 }

@@ -11,4 +11,6 @@ public interface PersonRepository extends JpaRepository<Person,UUID> {
     @Query("SELECT COALESCE(MAX(p.personid), 0) FROM Person p")
     Integer findMaxPersonId();
 
+    boolean existsByMentorId(UUID mentorId);
+
 }
